@@ -24,19 +24,19 @@ function App() {
       description:
         "Provides long-lasting moisture, keeping skin soft and smooth.",
       imgSrc: hydration,
-      marginLeft: "ml-40",
+      marginLeft: "lg:ml-40 md:ml-20",
     },
     {
       title: "Soothes Irritated Skin",
       description: "Calms redness and irritation, perfect for sensitive skin.",
       imgSrc: face,
-      marginLeft: "mr-20",
+      marginLeft: "lg:mr-20 md:mr-10",
     },
     {
       title: "Promotes Skin Healing",
       description: "Enhances healing of minor cuts, burns, and blemishes.",
       imgSrc: skin,
-      marginLeft: "ml-28",
+      marginLeft: "lg:ml-28 md:ml-14",
     },
     {
       title: "Rich in Antioxidants",
@@ -69,14 +69,26 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (boxRef.current ) {
+    if (boxRef.current) {
       const boxElement = boxRef.current;
+      const isMobile = window.innerWidth < 768;
+      const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
 
-      const targetX = window.innerWidth * 0.21;
-      const targetY = window.innerHeight * 0.92;
+      const targetX = isMobile 
+        ? window.innerWidth * 0.1 
+        : isTablet 
+          ? window.innerWidth * 0.25
+          : window.innerWidth * 0.21;
+      
+      const targetY = isMobile 
+        ? window.innerHeight * 0.8 
+        : isTablet 
+          ? window.innerHeight * 0.99
+          : window.innerHeight * 0.92;
       const translateX = targetX;
       const translateY = targetY;
       const progressFactor = Math.min(scrollProgress * 2, 1);
+      
       boxElement.style.transform = `
         translate(${translateX * progressFactor}px, ${translateY * progressFactor}px)
         scale(${1 - progressFactor * 0.5})
@@ -88,9 +100,9 @@ function App() {
       <div className="overflow-x-hidden">
         <Navbar />
         {/* 1st component */}
-        <div className="relative flex items-center justify-center h-screen">
+        <div className="relative flex items-center justify-center min-h-screen">
           {/* Hello text */}
-          <h1 className="font-playfair absolute w-full font-bold text-center text-black text-[20rem] opacity-20">
+          <h1 className="font-playfair absolute w-full font-bold text-center text-black text-[4rem] sm:text-[8rem] md:text-[16rem] lg:text-[20rem] opacity-20">
             NOURISH
           </h1>
 
@@ -103,7 +115,7 @@ function App() {
             <img
               src={cap}
               alt="Cap"
-              className={`z-20 mb-28 h-auto w-96 ${!animateCapUncap && "hidden"}`}
+              className={`z-20 mb-28 h-auto w-48 md:w-72 lg:w-96 ${!animateCapUncap && "hidden"}`}
             />
           </div>
 
@@ -116,34 +128,39 @@ function App() {
             <img
               src={uncap}
               alt="Uncap"
-              className={`z-10 h-auto mb-28 w-96 ${!animateCapUncap && "hidden"}`}
+              className={`z-10 h-auto mb-28 w-48 md:w-72 lg:w-96 ${!animateCapUncap && "hidden"}`}
             />
           </div>
 
-          {/* Box image (shown after cap and uncap meet) */}
+          {/* Box image  */}
           {showBox && (
             <div
               ref={boxRef}
               className="relative z-50 flex items-center justify-center w-full h-full"
             >
-              <img src={box} alt="Box" className="z-50 h-[340px] mb-28 w-96" />
+              <img src={box} alt="Box" className="z-50 w-48 h-auto md:w-72 lg:w-96 mb-28" />
             </div>
           )}
 
           {/* Second animation */}
           <div
-            className={`w-[82%] h-[86%] mt-12 circle second ${
+            className={`w-[120%] lg:w-[82%] h-[60%] md:h-[86%] mt-12 circle second ${
               animateSecond ? "animate" : ""
             }`}
           >
-            <img src={second} alt="Second Animation" className="w-full h-full" />
+            <img 
+              src={second} 
+              alt="Second Animation" 
+              className="w-full h-full"
+              
+            />
           </div>
         </div>
 {/* =================== */}
         {/* 2nd component */}
-        <div className="flex items-center justify-center h-screen pt-16 bg-white px-28">
+        <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-16 bg-white md:flex-row lg:px-28">
           {/* Left Section */}
-          <div className="w-full p-6 space-y-16 md:w-1/2">
+          <div className="order-2 w-full p-4 space-y-8 md:order-1 md:w-1/2 md:p-6 md:space-y-16">
             {benefits.map((benefit, index) => (
               <div
                 key={index}
@@ -154,28 +171,25 @@ function App() {
                 <img
                   src={benefit.imgSrc}
                   alt={benefit.title}
-                  className="w-20 h-20 p-1 bg-green-100 border border-green-900 rounded-full"
+                  className="w-16 h-16 p-1 bg-green-100 border border-green-900 rounded-full md:w-20 md:h-20"
                 />
                 <div className="ml-4">
-                  <h3 className="text-xl font-semibold text-green-900">
+                  <h3 className="text-lg font-semibold text-green-900 md:text-xl">
                     {benefit.title}
                   </h3>
-                  <p className="text-sm text-gray-600">{benefit.description}</p>
+                  <p className="text-xs text-gray-600 md:text-sm">{benefit.description}</p>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Right Section */}
-          <div className="relative flex items-center justify-center w-full md:w-1/2">
-            <div
-              
-              className="relative flex items-center justify-center overflow-hidden bg-green-100 rounded-full w-96 h-96"
-            >
+          <div className="relative flex items-center justify-center order-1 w-full mt-8 md:order-2 md:w-1/2 md:mt-0">
+            <div className="relative flex items-center justify-center overflow-hidden bg-green-100 rounded-full w-72 h-72 md:w-96 md:h-96">
               <img
                 src={hand}
                 alt="Product"
-                className="object-contain w-[400px] absolute bottom-0 -rotate-12  h-full scale-x-[-1]"
+                className="object-contain w-[300px] md:w-[400px] absolute bottom-0 -rotate-12 h-full scale-x-[-1]"
               />
             </div>
           </div>
