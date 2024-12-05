@@ -90,34 +90,36 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu Panel */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-sm">
-          <div className="px-4 py-3 space-y-3">
-            {leftLinks.map((link, index) => (
-              <a
-                key={index}
-                href={link.href}
-                className="block font-medium text-gray-600 hover:text-black"
-              >
-                {link.name}
-              </a>
-            ))}
-            <div className="pt-2 border-t border-gray-200">
-              <button className="flex items-center space-x-2 font-medium text-gray-600 hover:text-black">
-                <GoHeart className="w-5 h-5" />
-                <span>Wishlist</span>
-              </button>
-              <button className="flex items-center mt-3 space-x-2 font-medium text-gray-600 hover:text-black">
-                <BsHandbag className="w-5 h-5" />
-                <span>Bag</span>
-              </button>
-              <button className="flex items-center mt-3 space-x-2 font-medium text-gray-600 hover:text-black">
-                <span>Profile</span>
-              </button>
-            </div>
+      <div 
+        className={`fixed top-0 left-0 w-full h-screen transform md:hidden bg-[#E0FEE4] transition-transform duration-300 ease-in-out ${
+          isMenuOpen ? 'translate-y-[4.2rem]' : '-translate-y-full'
+        }`}
+      >
+        <div className="h-full px-4 py-6 space-y-6">
+          {leftLinks.map((link, index) => (
+            <a
+              key={index}
+              href={link.href}
+              className="block text-lg font-medium text-gray-600 hover:text-black"
+            >
+              {link.name}
+            </a>
+          ))}
+          <div className="pt-6 space-y-6 border-t border-gray-300">
+            <button className="flex items-center w-full space-x-2 text-lg font-medium text-gray-600 hover:text-black">
+              <GoHeart className="w-6 h-6" />
+              <span>Wishlist</span>
+            </button>
+            <button className="flex items-center w-full space-x-2 text-lg font-medium text-gray-600 hover:text-black">
+              <BsHandbag className="w-6 h-6" />
+              <span>Bag</span>
+            </button>
+            <button className="flex items-center w-full space-x-2 text-lg font-medium text-gray-600 hover:text-black">
+              <span>Profile</span>
+            </button>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };
